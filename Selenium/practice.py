@@ -4,29 +4,25 @@ import json
 from datetime import datetime
 
 query = {
-# 'user_token' : '''
-# {"query":
-# 	"mutation getJWTByEmail($input: CreateJWTEmailInput!) {getJWTByEmail (input: $input) {token}}",
-# 	"variables": {
-# 	    "input": {
-# 	        "clientMutationId": "1",
-# 	        "email": "apitester@storiqa.com",
-# 	        "password": "qwe123QWE"
-# 	    }
-# 	}
-# }
-# ''',
+'user_token' : '''
+{"query":
+	"mutation getJWTByEmail($input: CreateJWTEmailInput!) {getJWTByEmail (input: $input) {token}}",
+	"variables": {
+	    "input": {
+	        "clientMutationId": "1",
+	        "email": "apitester@storiqa.com",
+	        "password": "qwe123QWE"
+	    }
+	}
+}
+''',
 
 'user_id' : '''
 {"query":
 	"query {me {id, rawId, isActive, myStore {id}}}" }
 ''',
 
-'del_warehouse' : '''
-{"query":
-    "mutation deleteWarehouse {deleteWarehouse(%(war_id)s) {id}}"
-}
-'''
+
 }
 
 
