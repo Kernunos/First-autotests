@@ -8,7 +8,7 @@ failed_test_count = 0
 
 # Tests with parametrs
 registration = r.Registration('Tester', 'Testoviy', regmail, 'qwe123QWE')
-authorization = r.Authorization('Tester@storiqa.com', 'qwe123QWE')
+authorization = r.Authorization(testmail, 'qwe123QWE')
 user_profile = r.User()
 store = r.Store(regname, regname, 333, unic)
 buy_item = r.Checkout(product)

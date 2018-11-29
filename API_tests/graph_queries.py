@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 #Это словарь со всеми запросами для GaphQL
-queries = {
+from typing import Dict, Any, Union
+
+queries: Dict[Union[str, Any], Union[str, Any]] = {
 
 'version' : '''{"query":
                 "query {apiVersion}"}''',
@@ -18,24 +20,24 @@ queries = {
 'currencyExchange' : '''{"query":
                             "query {currencyExchange{code, rates{code, value}}}"}''',
 
-'adm_token' : '''{
+'admin_getJWTByEmail' : '''{
     "query":
         "mutation getJWTByEmail($input: CreateJWTEmailInput!) {getJWTByEmail (input: $input) {token}}",
     "variables": {
         "input": {
             "clientMutationId": "1",
-            "email": "admin@storiqa.com",
-            "password": "bqF5BkdsCS"
+            "email": "%(adm)s",
+            "password": "%(admpwd)s"
         }
     }
 }''',
 
-'cr_cat1' : '''
+'createCategory_1' : '''
 {"query":
     "mutation createCategory($input: CreateCategoryInput!) {createCategory(input: $input) {id rawId name {lang text}}}",
     "variables": 
         {"input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "name": [
                 {"lang": "EN", "text": "test"},
                 {"lang": "RU", "text": "тест%(n)s"}
@@ -46,12 +48,12 @@ queries = {
 }
 ''',
 
-'cr_cat2' : '''
+'createCategory_2' : '''
 {"query":
     "mutation createCategory($input: CreateCategoryInput!) {createCategory(input: $input) {id rawId name {lang text}}}",
     "variables": 
         {"input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "name": [
                 {"lang": "DE", "text": "test"},
                 {"lang": "RU", "text": "тест%(n)s"}
@@ -62,12 +64,12 @@ queries = {
 }
 ''',
 
-'cr_cat3' : '''
+'createCategory_3' : '''
 {"query":
     "mutation createCategory($input: CreateCategoryInput!) {createCategory(input: $input) {id rawId name {lang text}}}",
     "variables": 
         {"input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "name": [
                 {"lang": "DE", "text": "test"},
                 {"lang": "RU", "text": "тест%(n)s"}
@@ -78,25 +80,25 @@ queries = {
 }
 ''',
 
-'up_cat' : """
+'updateCategory' : """
 {"query":
     "mutation updateCategory($input: UpdateCategoryInput!) {updateCategory(input: $input) {id}}",
     "variables": {
         "input" : {
             "id": "%(cat_id_3)s",
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "name": [{"lang": "EN", "text": "test%(n)s"}]
         }
     } 
 }
 """,
 
-'cr_attr' : '''
+'createAttribute' : '''
 {"query":
     "mutation createAttribute($input: CreateAttributeInput!) {createAttribute(input: $input) {id, rawId}}",
     "variables": {
         "input" : {
-        "clientMutationId": "1",
+        "clientMutationId": "",
         "name": [{"text": "test", "lang": "EN"}],
         "valueType": "STR",
         "metaField": {
@@ -108,12 +110,12 @@ queries = {
 }
 ''',
 
-'up_attr' : '''
+'updateAttribute' : '''
 {"query":
     "mutation updateAttribute($input: UpdateAttributeInput!) {updateAttribute(input: $input) {id}}",
     "variables": {
         "input" : {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "id":  "%(attr_id)s",
             "name": [{"text": "test%(n)s", "lang": "EN"}]
         }
@@ -121,12 +123,12 @@ queries = {
 }
 ''',
 
-'add_attr' : '''
+'addAttributeToCategory' : '''
 {"query":
     "mutation addAttributeToCategory($input: AddAttributeToCategoryInput!) {addAttributeToCategory(input: $input) {mock}}",
     "variables": {
         "input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "catId": %(cat_rawid_3)i,
             "attrId": %(attr_rawid)i
         }
@@ -134,12 +136,12 @@ queries = {
 }
 ''',
 
-'cr_company' : '''
+'createCompany' : '''
 {"query":
     "mutation createCompany($input: NewCompanyInput!) {createCompany (input: $input) {id, rawId}}",
     "variables": {
          "input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "name": "testCompany",
             "label": "TST",
             "description": "company for tests",
@@ -151,12 +153,12 @@ queries = {
 }
 ''',
 
-'up_company' : '''
+'updateCompany' : '''
 {"query":
     "mutation updateCompany($input: UpdateCompanyInput!) {updateCompany (input: $input) {deliveriesFrom {alpha3 children{alpha3 children{alpha3}}}}}",
     "variables": {
          "input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
 			"id": "%(company_id)s",
             "deliveriesFrom": ["LBR", "RUS"],
             "logo": "XxX_TST_XxX"
@@ -165,46 +167,46 @@ queries = {
 }
 ''',
 
-'cr_package' : '''
+'createPackage' : '''
 {"query":
     "mutation createPackage($input: NewPackagesInput!) {createPackage (input: $input) {id, rawId}}",
     "variables": {
         "input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "name": "testPackge",
-            "maxSize": 10.0,
-            "minSize": 1.0,
-            "maxWeight": 30.0,
-            "minWeight": 0.5,
+            "maxSize": 200,
+            "minSize": 5,
+            "maxWeight": 30000,
+            "minWeight": 100,
             "deliveriesTo": ["LBR"]
         }
     }
 }
 ''',
 
-'up_package' : '''
+'updatePackage' : '''
 {"query":
     "mutation updatePackage($input: UpdatePackagesInput!) {updatePackage (input: $input) {deliveriesTo {alpha3 children{alpha3 children{alpha3}}}}}",
     "variables": {
         "input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "id": "%(package_id)s",
-            "maxSize": 11.0,
-            "minSize": 1.5,
-            "maxWeight": 31.0,
-            "minWeight": 0.8,
+            "maxSize": 210,
+            "minSize": 10,
+            "maxWeight": 33000,
+            "minWeight": 100,
             "deliveriesTo": ["LBR", "RUS"]
         }
     }
 }
 ''',
 
-'ad_package' : '''
+'addPackageToCompany' : '''
 {"query":
     "mutation addPackageToCompany($input: NewCompaniesPackagesInput!) {addPackageToCompany (input: $input) {id, rawId}}",
     "variables": {
          "input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
 			"companyId": %(company_rawid)i,
           	"packageId": %(package_rawid)i 
         }
@@ -212,12 +214,12 @@ queries = {
 }
 ''',
 
-'cr_user' : '''
+'createUser' : '''
 {"query":
 	"mutation createUser($input: CreateUserInput!) {createUser(input: $input) {id rawId}}",
 	"variables": {
 	    "input": {
-	        "clientMutationId": "1",
+	        "clientMutationId": "",
 	        "firstName": "tester",
 	        "lastName": "testoviy",
 	        "email": "%(regmail)s",
@@ -228,82 +230,82 @@ queries = {
 }
 ''',
 
-'ad_role_user_users' : '''
+'addRoleToUserOnUsersMicroservice' : '''
 {"query":
     "mutation addRoleToUserOnUsersMicroservice($input: NewUsersRoleInput!) {addRoleToUserOnUsersMicroservice (input: $input) {userId, name}}",
     "variables": {
         "input": {
-            "clientMutationId": "1",
-            "userId": %(n_usr_rawid)i,
+            "clientMutationId": "",
+            "userId": %(new_usr_rawid)i,
             "name": "MODERATOR"
         }
     }
 }
 ''',
 
-'ad_role_user_stores' : '''
+'addRoleToUserOnStoresMicroservice' : '''
 {"query":
     "mutation addRoleToUserOnStoresMicroservice($input: NewStoresRoleInput!) {addRoleToUserOnStoresMicroservice (input: $input) {userId, name}}",
     "variables": {
         "input": {
-            "clientMutationId": "1",
-            "userId": %(n_usr_rawid)i,
+            "clientMutationId": "",
+            "userId": %(new_usr_rawid)i,
             "name": "MODERATOR"
         }
     }
 }
 ''',
 
-'del_role_user_users' : '''
+'removeRoleFromUserOnUsersMicroservice' : '''
 {"query":
     "mutation removeRoleFromUserOnUsersMicroservice($input: RemoveUsersRoleInput!) {removeRoleFromUserOnUsersMicroservice (input: $input) {userId, name}}",
     "variables": {
         "input": {
-            "clientMutationId": "1",
-            "userId": %(n_usr_rawid)i,
+            "clientMutationId": "",
+            "userId": %(new_usr_rawid)i,
             "name": "MODERATOR"
         }
     }
 }
 ''',
 
-'del_role_user_stores' : '''
+'removeRoleFromUserOnStoresMicroservice' : '''
 {"query":
     "mutation removeRoleFromUserOnStoresMicroservice($input: RemoveStoresRoleInput!) {removeRoleFromUserOnStoresMicroservice (input: $input) {userId, name}}",
     "variables": {
         "input": {
-            "clientMutationId": "1",
-            "userId": %(n_usr_rawid)i,
+            "clientMutationId": "",
+            "userId": %(new_usr_rawid)i,
             "name": "MODERATOR"
         }
     }
 }
 ''',
 
-'user_token' : '''
+'user_getJWTByEmail' : '''
 {"query":
 	"mutation getJWTByEmail($input: CreateJWTEmailInput!) {getJWTByEmail (input: $input) {token}}",
 	"variables": {
 	    "input": {
-	        "clientMutationId": "1",
-	        "email": "apitester@storiqa.com",
-	        "password": "qwe123QWE"
+	        "clientMutationId": "",
+	        "email": "%(usr)s",
+	        "password": "%(usrpwd)s"
 	    }
 	}
 }
 ''',
 
-'user_id' : '''
+'query_me' : '''
 {"query":
 	"query {me {id, rawId, isActive, myStore {id}}}" }
 ''',
 
-'up_user' : '''
+'updateUser' : '''
 {"query":
     "mutation updateUser($input: UpdateUserInput!) {updateUser(input: $input){id, isActive}}",
     "variables": {
         "input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "id": "%(usr_id)s",
             "phone": "89095754585",
             "firstName": "Testoviy",
@@ -321,7 +323,7 @@ queries = {
     "mutation createUserDeliveryAddressFull($input: NewUserDeliveryAddressFullInput!) {createUserDeliveryAddressFull(input: $input) {id, rawId, isPriority}}",
     "variables": {
         "input" : {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "userId": %(usr_rawid)i,
             "addressFull" : {"country": "United States", "postalCode": "432234"},
             "isPriority": true
@@ -335,7 +337,7 @@ queries = {
     "mutation updateUserDeliveryAddressFull($input: UpdateUserDeliveryAddressFullInput!) {updateUserDeliveryAddressFull(input: $input) {id, rawId, isPriority}}",
     "variables": {
         "input" : {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "id": %(addr_rawid)i,
             "addressFull" : {"value": "kakayato avenue 34", "country": "United States", "postalCode": "432234"},
             "isPriority": true
@@ -350,36 +352,36 @@ queries = {
 }
 ''',
 
-'cr_wizard' : '''
+'createWizardStore' : '''
 {"query":
     "mutation createWizardStore {createWizardStore {id, storeId}}"
 }
 ''',
 
-'up_wizard' : '''
+'updateWizardStore' : '''
 {"query":
     "mutation updateWizardStore($input: UpdateWizardStoreInput!) {updateWizardStore(input: $input) {id, storeId}}",    
     "variables": {
         "input" : {
-            "clientMutationId": "1",
+            "clientMutationId": "",
           	"addressFull": {"country": "Russia", "postalCode": "123321"}
         }
     }
 }
 ''',
 
-'del_wizard' : '''
+'deleteWizardStore' : '''
 {"query":
     "mutation deleteWizardStore {deleteWizardStore {id, storeId}}"
 }
 ''',
 
-'cr_store' : '''
+'createStore' : '''
 {"query":
     "mutation createStore($input: CreateStoreInput!) {createStore(input: $input) {id, name{lang, text}, rawId}}",
     "variables": {
         "input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "name": [{"lang": "EN", "text": "testshop%(n)s"}],
             "userId": %(usr_rawid)i,
             "defaultLanguage": "EN",
@@ -393,12 +395,12 @@ queries = {
 }
 ''',
 
-'up_store' : '''
+'updateStore' : '''
 {"query":
     "mutation updateStore($input: UpdateStoreInput!) {updateStore(input: $input) {id, isActive}}",
     "variables": {
         "input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "id": "%(store_id)s",
             "name": [{"lang": "EN", "text": "qwerty%(n)s"}],
             "shortDescription": [{"lang": "EN", "text": "short"}],
@@ -413,42 +415,42 @@ queries = {
 }
 ''',
 
-'cr_warehouse' : '''
+'createWarehouse' : '''
 {"query":
     "mutation createWarehouse($input: CreateWarehouseInput!) {createWarehouse (input: $input) {id}}",
     "variables": {
         "input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "name": "testwar",
             "slug": "testwar",
             "storeId": %(store_rawid)i,
+            "addressFull": {"value": "gdeto", "country": "Canada", "postalCode": "111111", "countryCode": "CND"}
+        }
+    }
+}
+''',
+
+'updateWarehouse' : '''
+{"query":
+    "mutation updateWarehouse($input: UpdateWarehouseInput!) {updateWarehouse (input: $input) {id, name}}",
+    "variables": {
+        "input": {
+            "clientMutationId": "",
+            "name": "testwarE",
+            "slug": "testwar%(n)s",
+            "id": "%(war_id)s",
             "addressFull": {"value": "gdeto", "country": "Liberia", "postalCode": "111111", "countryCode": "LBR"}
         }
     }
 }
 ''',
 
-'up_warehouse' : '''
-{"query":
-    "mutation updateWarehouse($input: UpdateWarehouseInput!) {updateWarehouse (input: $input) {id, name}}",
-    "variables": {
-        "input": {
-            "clientMutationId": "1",
-            "name": "testwarE",
-            "slug": "testwar%(n)s",
-            "id": "%(war_id)s",
-            "addressFull": {"value": "gdeto", "country": "Canada", "postalCode": "111111"}
-        }
-    }
-}
-''',
-
-'cr_b_prod' : '''
+'createBaseProduct' : '''
 {"query":
     "mutation createBaseProduct($input: CreateBaseProductInput!) {createBaseProduct(input: $input) {id rawId name {lang text}}}",
     "variables": {
         "input" : {
-            "clientMutationId": "1",
+            "clientMutationId": "",
              "name": [{"lang": "EN", "text": "testproduct%(n)s"},
                       {"lang": "RU", "text": "тестпродукт%(n)s"}],
              "storeId": %(store_rawid)i,
@@ -461,12 +463,12 @@ queries = {
 }
 ''',
 
-'up_b_prod' : '''
+'updateBaseProduct' : '''
 {"query":
     "mutation updateBaseProduct($input: UpdateBaseProductInput!) {updateBaseProduct(input: $input) {id, rawId}}",
     "variables": {
         "input" : {
-            "clientMutationId": "1",
+            "clientMutationId": "",
              "id": "%(b_prod_id)s",
              "longDescription" : [{"lang" : "EN", "text" : "Long Desc"}]
         }
@@ -474,12 +476,12 @@ queries = {
 }
 ''',
 
-'cr_cust_attr' : '''
+'createCustomAttribute' : '''
 {"query":
     "mutation createCustomAttribute($input: NewCustomAttributeInput!) {createCustomAttribute (input: $input) {id, rawId}}",
     "variables": {
         "input":{
-            "clientMutationId": "1",
+            "clientMutationId": "",
 			"attributeId": %(attr_rawid)i,
             "baseProductId": %(b_prod_rawid)i
         }
@@ -487,12 +489,12 @@ queries = {
 }
 ''',
 
-'cr_prod' : '''
+'createProduct' : '''
 {"query":
     "mutation createProduct($input: CreateProductWithAttributesInput!) {createProduct(input: $input) {id, isActive, rawId}}",
     "variables": {
         "input" : {
-            "clientMutationId": "1",
+            "clientMutationId": "",
              "product":  {"baseProductId": %(b_prod_rawid)i,
                           "preOrder": true,
                           "preOrderDays": 10,
@@ -506,12 +508,12 @@ queries = {
 }
 ''',
 
-'up_prod' : '''
+'updateProduct' : '''
 {"query":
     "mutation updateProduct($input: UpdateProductWithAttributesInput!) {updateProduct(input: $input) {id}}",
     "variables": {
         "input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "id": "%(prod_id)s",
             "product": {"discount": 1.0}
         }
@@ -519,14 +521,14 @@ queries = {
 }
 ''',
 
-'upsert_ship' : '''
+'upsertShipping' : '''
 {"query":
     "mutation upsertShipping($input: NewShippingInput!) {upsertShipping (input: $input) {local {deliveriesTo {alpha3 children{alpha3 children{alpha3}}}}}}",
     "variables": {
         "input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "local": {"companyPackageId": %(comp_pack_rawid)i, "price": 100.0},
-            "international": {"companyPackageId": %(comp_pack_rawid)i, "price": 200.0, "deliveriesTo": ["LBR"]},
+            "international": {"companyPackageId": %(comp_pack_rawid)i, "price": 200.0, "deliveriesTo": ["RUS"]},
             "pickup": {"pickup": true, "price": 0.0},
             "baseProductId": %(b_prod_rawid)i,
 			"storeId": %(store_rawid)i
@@ -535,19 +537,19 @@ queries = {
 }
 ''',
 
-'cr_b_prod_var' : '''
+'createBaseProductWithVariants' : '''
 {"query":
     "mutation createBaseProductWithVariants($input: NewBaseProductWithVariantsInput!) {createBaseProductWithVariants(input: $input) {id, rawId, products(first : 100) {edges {node {id, rawId}}}}}",
     "variables": {
         "input" : {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "name": [{"lang": "EN", "text": "testprodwithvar"}],
           	"storeId": %(store_rawid)i,
           	"shortDescription": [{"lang": "EN", "text": "test"}],
           	"currency": "STQ",
           	"categoryId": %(cat_rawid_3)i,
           	"variants": {
-              "clientMutationId": "1",
+              "clientMutationId": "",
               "product": {
                 "vendorCode": "E1",
                 "price": 10.0
@@ -560,18 +562,29 @@ queries = {
 }
 ''',
 
-'get_b_prods' : '''
+'createCoupon' : '''
 {"query":
-    "{me {baseProducts {edges {node {id rawId}}}}}"
+    "mutation createCoupon($input: NewCouponInput!) {createCoupon(input: $input) {id rawId code isActive}}",
+"variables" : {
+    "input": {
+          "clientMutationId": "",
+          "code": "TEST1",
+          "title": "skidosik",
+          "storeId": %(store_rawid)i,
+          "scope": "BASE_PRODUCTS",
+          "percent": 10,
+          "quantity": 10
+    }
+ }
 }
 ''',
 
-'prod_in_war' : '''
+'setProductQuantityInWarehouse' : '''
 {"query":
     "mutation setProductQuantityInWarehouse($input: ProductQuantityInput!) {setProductQuantityInWarehouse (input: $input) {id, productId, quantity}}",
     "variables": {
         "input":{
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "warehouseId": "%(war_id)s",
             "productId": %(prod_rawid)i,
             "quantity": 33
@@ -580,41 +593,65 @@ queries = {
 }
 ''',
 
-'publish_store' : '''
-{"query":
-    "mutation publishStore {publishStore(id: %(store_rawid)i) {id}}"
+'sendStoreToModeration' : '''
+{"query" :
+    "mutation sendStoreToModeration {sendStoreToModeration(id:%(store_rawid)i) {rawId status}}"
 }
 ''',
 
-'publish_b_prod' : '''
-{"query":
-    "mutation publishBaseProducts {publishBaseProducts(ids: %(b_prod_rawid)i) {id}}"
+'setModerationStatusStore' : '''
+{"query" :
+    "mutation setModerationStatusStore($input: StoreModerateInput!) {setModerationStatusStore(input: $input) {rawId status}}",
+"variables": {
+  "input": {
+	"id" : "%(store_id)s",
+    "status" : "PUBLISHED"
+  }
+}
 }
 ''',
 
-'clear_Cart' : '''
+'sendBaseProductToModeration' : '''
+{"query" :
+    "mutation sendBaseProductToModeration {sendBaseProductToModeration(id:%(b_prod_rawid)i) {rawId status}}"
+}
+''',
+
+'setModerationStatusBaseProduct' : '''
+{"query" :
+    "mutation setModerationStatusBaseProduct($input: BaseProductModerateInput!) {setModerationStatusBaseProduct(input: $input) {rawId status}}",
+"variables": {
+  "input": {
+	"id" : "%(b_prod_id)s",
+    "status" : "PUBLISHED"
+  }
+}
+}
+''',
+
+'clearCart' : '''
 {"query":
     "mutation clearCart  {clearCart{id, totalCost}}"}
 ''',
 
-'increment_incart' : '''
+'incrementInCart' : '''
 {"query":
     "mutation incrementInCart($input: IncrementInCartInput!) {incrementInCart(input: $input) {id, productsCost}}",
 "variables": {
     "input": {
-        "clientMutationId": "1",
+        "clientMutationId": "",
         "productId": %(prod_rawid)i
     }
  }
 }
 ''',
 
-'setselection_incart' : '''
+'setSelectionInCart' : '''
 {"query":
     "mutation setSelectionInCart($input: SetSelectionInCartInput!) {setSelectionInCart(input: $input) {id, productsCost}}",
 "variables": {
     "input": {
-        "clientMutationId": "1",
+        "clientMutationId": "",
         "productId": %(prod_rawid)i,
         "value": true
     }
@@ -622,12 +659,12 @@ queries = {
 }
 ''',
 
-'setquantity_incart' : '''
+'setQuantityInCart' : '''
 {"query":
     "mutation setQuantityInCart($input: SetQuantityInCartInput!) {setQuantityInCart(input: $input) {id, productsCost}}",
 "variables": {
     "input": {
-        "clientMutationId": "1",
+        "clientMutationId": "",
         "productId": %(prod_rawid)i,
         "value": 3
     }
@@ -635,13 +672,32 @@ queries = {
 }
 ''',
 
-'cr_order' : '''
+'availableShippingForUser' : '''
+{"query":
+    "{availableShippingForUser(userCountry: \\"RUS\\", baseProductId: %(b_prod_rawid)i) {packages {id shippingId}}}"
+}
+''',
+
+'setDeliveryMethodInCart' : '''
+{"query":
+    "mutation setDeliveryMethodInCart($input: SetDeliveryMethodInCartInput!) {setDeliveryMethodInCart(input: $input) {id productsCost totalCost}}",
+"variables": {
+    "input": {
+            "clientMutationId": "",
+			"productId": %(prod_rawid)i,
+          	"shippingId": %(shipping_id)i
+    }
+ }
+}
+''',
+
+'createOrders' : '''
 {"query":
     "mutation createOrders($input: CreateOrderInput!) {createOrders (input: $input) {invoice{id, orders{id, slug, trackId}}}}",
 "variables": {
     "input": {
-        "clientMutationId": "1",
-        "addressFull": {"value": "gdeto", "country": "Canada", "postalCode": "111111"},
+        "clientMutationId": "",
+        "addressFull": {"value": "gdeto", "country": "Russian Federation", "postalCode": "111111", "countryCode": "RUS"},
         "receiverName": "tester",
         "receiverPhone": "+79095623366",
         "currency": "STQ" 
@@ -650,12 +706,12 @@ queries = {
 }
 ''',
 
-'order_delivery' : '''
+'setOrderStatusDelivery' : '''
 {"query":
     "mutation setOrderStatusDelivery($input: OrderStatusDeliveryInput!) {setOrderStatusDelivery (input: $input) {state, trackId}}",
 "variables": {
     "input": {
-        "clientMutationId": "1",
+        "clientMutationId": "",
         "orderSlug": %(order_slug)i,
         "comment": "test"
     }
@@ -668,89 +724,101 @@ queries = {
     "query order_history {me{id, order(slug: %(order_slug)i){history {edges {node {state, orderId, comment}}}}}}"}
 ''',
 
-'order_canceled' : '''
+'setOrderStatusCanceled' : '''
 {"query":
     "mutation setOrderStatusCanceled($input: OrderStatusCanceledInput!) {setOrderStatusCanceled (input: $input) {state, trackId}}",
 "variables": {
     "input": {
-        "clientMutationId": "1",
+        "clientMutationId": "",
         "orderSlug": %(order_slug)i,
         "comment": "test"
     }
  }}
 ''',
 
-'order_complete' : '''
+'setOrderStatusComplete' : '''
 {"query":
     "mutation setOrderStatusComplete($input: OrderStatusCompleteInput!) {setOrderStatusComplete (input: $input) {state, trackId}}",
 "variables": {
     "input": {
-        "clientMutationId": "1",
+        "clientMutationId": "",
         "orderSlug": %(order_slug)i,
         "comment": "test"
     }
  }}
 ''',
 
-'delete_fromcart' : '''
+'deleteFromCart' : '''
 {"query":
     "mutation deleteFromCart($input: DeleteFromCartInput!) {deleteFromCart(input: $input) {id, totalCost}}",
 "variables": {
     "input": {
-        "clientMutationId": "1",
+        "clientMutationId": "",
         "productId": %(prod_rawid)i
     }
  }}
 ''',
 
-'draft_b_prod' : '''
+'buyNow' : '''
+{"query":
+    "mutation buyNow($input: BuyNowInput!) {buyNow(input: $input) {invoice {id state} cart{id totalCost}}}",
+"variables": {
+    "input": {
+        "clientMutationId": "",
+        "productId": %(prod_rawid)i,
+        "quantity": 1,
+        "addressFull": {"value": "gdeto", "country": "Russian Federation", "postalCode": "111111", "countryCode": "RUS"},
+        "receiverName": "apitester",
+        "receiverPhone": "+79034569874",
+        "currency": "RUB",
+        "shippingId": %(shipping_id)i
+    }
+ }
+}
+''',
+
+'recalcInvoiceAmount' : '''
+{"query":
+    "mutation recalcInvoiceAmount{recalcInvoiceAmount(id : \\"%(invoice_id)s\\") {id} }"
+}
+''',
+
+'draftBaseProducts' : '''
 {"query":
     "mutation draftBaseProducts {draftBaseProducts(ids: %(b_prod_rawid)i) {id}}"
 }
 ''',
 
-'draft_store': '''
+'draftStore': '''
 {"query":
     "mutation draftStore {draftStore(id: %(store_rawid)i) {id}}"
 }
 ''',
 
-'del_comp_pack' : '''
+'deleteCompanyPackage' : '''
 {"query":
     "mutation deleteCompanyPackage {deleteCompanyPackage(companyId: %(company_rawid)i, packageId: %(package_rawid)i) {id}}"
 }
 ''',
 
-'del_package' : '''
+'deletePackage' : '''
 {"query":
     "mutation deletePackage {deletePackage(id: %(package_rawid)i) {id}}"
 }
 ''',
 
-'del_company' : '''
+'deleteCompany' : '''
 {"query":
     "mutation deleteCompany {deleteCompany(id: %(company_rawid)i) {id}}"
 }
 ''',
 
-# 'del_cust_attr' : '''
-# {"query":
-#     "mutation deleteCustomAttribute($input: DeleteCustomAttributeInput!) {deleteCustomAttribute (input: $input) {id, rawId}}",
-#     "variables": {
-#         "input":{
-#             "clientMutationId": "1",
-#             "customAttributeId": %(cust_attr_rawid)i
-#         }
-#     }
-# }
-# ''',
-
-'del_attr_from_cat' : '''
+'deleteAttributeFromCategory' : '''
 {"query":
     "mutation deleteAttributeFromCategory($input: DeleteAttributeFromCategory!) {deleteAttributeFromCategory(input: $input) {mock}}",
     "variables": {
         "input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "catId": %(cat_rawid_3)i,
             "attrId": %(attr_rawid)i
         }
@@ -758,36 +826,36 @@ queries = {
 }
 ''',
 
-'deact_prod' : '''
+'deactivateProduct' : '''
 {"query":
     "mutation deactivateProduct($input: DeactivateProductInput!) {deactivateProduct(input: $input) {id, isActive}}",
     "variables": {
         "input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "id": "%(prod_id)s"
         }
     }
 }
 ''',
 
-'deact_b_prod' : '''
+'deactivateBaseProduct' : '''
 {"query":
     "mutation deactivateBaseProduct($input: DeactivateBaseProductInput!) {deactivateBaseProduct(input: $input) {id, isActive}}",
     "variables": {
         "input": {
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "id": "%(b_prod_id)s"
         }
     }
 }
 ''',
 
-'deact_store' : '''
+'deactivateStore' : '''
 {"query":
     "mutation deactivateStore($input: DeactivateStoreInput!) {deactivateStore(input: $input) {id, isActive}}",
     "variables": {
         "input":{
-            "clientMutationId": "1",
+            "clientMutationId": "",
             "id": "%(store_id)s"
         }
     }
@@ -867,5 +935,34 @@ queries = {
 #             "isPriority": true
 #         }
 #     }
+# }
+# ''',
+#
+# 'get_b_prods' : '''
+# {"query":
+#     "{me {baseProducts {edges {node {id rawId}}}}}"
+# }
+# ''',
+#
+# 'del_cust_attr' : '''
+# {"query":
+#     "mutation deleteCustomAttribute($input: DeleteCustomAttributeInput!) {deleteCustomAttribute (input: $input) {id, rawId}}",
+#     "variables": {
+#         "input":{
+#             "clientMutationId": "1",
+#             "customAttributeId": %(cust_attr_rawid)i
+#         }
+#     }
+# }
+# ''',
+# 'publish_store' : '''
+# {"query":
+#     "mutation publishStore {publishStore(id: %(store_rawid)i) {id}}"
+# }
+# ''',
+#
+# 'publish_b_prod' : '''
+# {"query":
+#     "mutation publishBaseProducts {publishBaseProducts(ids: %(b_prod_rawid)i) {id}}"
 # }
 # ''',
