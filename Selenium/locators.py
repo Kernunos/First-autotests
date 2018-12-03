@@ -6,9 +6,9 @@ import re
 unic = datetime.strftime(datetime.now(), "%m%d%H%M%S") # Уникальная переменная
 regmail = 'tester' + unic + '@test.test' # Адрес электронной почты для регистраций
 regname = 'test' + unic # Имена для магазинов и товаров
-testmail = 'autotester@storiqa.com' # Логин тестового пользователя
-testdev = "https://storiqateam:s3cur3passw0rd@nightly.stq.cloud/auth" # Адрес тестового стенда
-testprod = "https://storiqa:whenLambo%3F@stage.stq.cloud/auth" # Адрес предрелизного стенда
+testmail = 'autotester@xxx.com' # Логин тестового пользователя
+testdev = "https://" # Адрес тестового стенда
+testprod = "https://" # Адрес предрелизного стенда
 test_address = {"country" : "Russian Federation",
                 "address" : "New Arbat Avenue",
                 "suite" : "33/5",
@@ -18,7 +18,7 @@ test_address = {"country" : "Russian Federation",
                 "area" : "moscow",
                 "pcode" : '123321'} # Данные формы адреса
 
-''' Определение локаторов на STORIQA.COM '''
+''' Определение локаторов '''
 
 # ШАПКА САЙТА:
 logo = "//a[@data-test='logoLink']"  # Логотип Сторика

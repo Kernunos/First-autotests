@@ -18,13 +18,13 @@ if os.getenv('SELENIUM_URL'):
 else: url = testdev
 
 driver = webdriver.Remote(
-     command_executor='http://uxtest.stq.cloud:4444/wd/hub',
+     command_executor='http://uxtest.xxx.cloud:4444/wd/hub',
      desired_capabilities=DesiredCapabilities.CHROME)
 # driver = webdriver.Chrome()
 # driver.maximize_window()
 driver.get(url)
 driver.implicitly_wait(4)
-assert "Storiqa" in driver.title
+assert "page_title" in driver.title
 
 ########################################Interface#########################################
 # Exception for failed test

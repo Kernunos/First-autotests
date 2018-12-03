@@ -9,7 +9,7 @@ from datetime import datetime
 
 if os.getenv('GRAPHQL_URL'):
     url = os.environ['GRAPHQL_URL']
-else: url = 'https://nightly.stq.cloud/graphql'
+else: url = 'https://nightly.xxx.cloud/graphql'
 
 class TestFailException(Exception):
     pass
@@ -44,9 +44,9 @@ def request(json_query, headers, cookies):
 # Словарь с переменными использующимися в запросах
 context:dict = {
     'n': datetime.strftime(datetime.now(), "%m%d%H%M%S"),
-    'adm' : 'admin@storiqa.com',
+    'adm' : 'admin@xxx.com',
     'admpwd' : 'bqF5BkdsCS',
-    'usr' : 'apitester@storiqa.com',
+    'usr' : 'apitester@xxx.com',
     'usrpwd' : 'qwe123QWE',
     'cat_rawid_1' : '',
     'cat_rawid_2' : '',
@@ -80,7 +80,7 @@ context:dict = {
 }
 # Действие со списком запросов. Основная логика теста.
 def action(dictq:dict):
-    token_headers:dict = {"currency" : "STQ"}
+    token_headers:dict = {"currency" : "RUB"}
     cookie:dict = {"holyshit": "iamcool"}
     answer:json
     count:int = 0
